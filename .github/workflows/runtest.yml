@@ -1,19 +1,17 @@
-name: runtest
+name: Run Tests on Push
 on: push
 jobs:
-  misspell:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code.
         uses: actions/checkout@v4
-      - name: Tun test.
-        uses: npm run test
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          github_token: ${{ secrets.github_token }}
-          level: info
-          locale: "US"
-          exclude: |
-            ./.github/*
-          filter_mode: "added"
-          reporter: github-pr-review
-          fail_on_error: false
+          node-version: 20 
+          cache: 'npm'  
+      - name: Install dependencies
+        run: npm install  
+      - name: Run tests
+        run: npm run test-ci
