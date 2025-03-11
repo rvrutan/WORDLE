@@ -1,0 +1,21 @@
+name: spellcheck
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  misspell:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code.
+        uses: actions/checkout@v4
+      - name: Run Misspell
+        uses: reviewdog/action-misspell@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          level: info
+          locale: "US"
+          exclude: |
+            ./.github/*
+          filter_mode: "added"
+          reporter: github-pr-review
+          fail_on_error: false
