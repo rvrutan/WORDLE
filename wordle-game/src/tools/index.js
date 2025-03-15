@@ -1,8 +1,8 @@
-const GREEN = "g";
-const YELLOW = "y";
-const BLACK = "b";
+export const GREEN = "g";
+export const YELLOW = "y";
+export const BLACK = "b";
 
-class Wordle {
+export class Wordle {
   word;
   constructor(word) {
     this.word = word;
@@ -59,4 +59,4 @@ class Wordle {
   }
 }
 
-module.exports = { Wordle, GREEN, YELLOW, BLACK };
+// module.exports = { Wordle, GREEN, YELLOW, BLACK };
