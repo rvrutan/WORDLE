@@ -1,4 +1,6 @@
-const { Wordle, GREEN, YELLOW, BLACK } = require("../tools/index.js");
+// const { Wordle, GREEN, YELLOW, BLACK } = require("../tools/index.js");
+import  Wordle, { GREEN, YELLOW, BLACK } from "../tools/index";
+
 
 describe("Wordle", () => {
   it("if guess has a diffirent number of letters than wordle, it should retun empty array", () => {

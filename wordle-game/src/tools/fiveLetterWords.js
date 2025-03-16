@@ -3102,3 +3102,5 @@ const fiveLetterWords = [
     "youth",
     "zebra",
     "zones"];
+
+    export default fiveLetterWords;

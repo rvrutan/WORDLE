@@ -1,65 +1,80 @@
 import React, { useState } from 'react';
-import WordleGrid from './components/WordleGrid';
+import WordGrid from './components/WordGrid';
 import Keyboard from './components/Keyboard';
-import './App.css'
+// import Result from './components/Result';
+import fiveLetterWords from './tools/fiveLetterWords.js';
 import { Wordle, GREEN, YELLOW, BLACK } from './tools/index';
 
-function App() {
+const App = () => {
+  const [targetWord, setTargetWord] = useState(fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]);
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState('');
   const [isGameOver, setIsGameOver] = useState(false);
-  const [isGameWon, setIsGameWon] = useState(false);
-  const [targetWord, setTargetWord] = useState('CRANE');
-  const [currentRow, setCurrentRow] = useState(0);
-  const wordleGame = new Wordle(targetWord);
+  const [result, setResult] = useState('');
+  
+  const wordle = new Wordle(targetWord);
 
-  const handleGuessSubmit = () => {
-    if (currentGuess.length !== 5) return;
-
-    const newGuesses = [...guesses];
-    const feedback = checkGuess(currentGuess);
-    const feedbackWithObjects = currentGuess.split('').map((letter, index) => ({
-      letter: letter,
-      color: feedback[index],
-    }));
-
-    newGuesses.push(feedbackWithObjects);
-    setGuesses(newGuesses);
-    setCurrentGuess('');
-    setCurrentRow(currentRow + 1);
-
-    if (currentGuess === targetWord) {
-      setIsGameWon(true);
-      setIsGameOver(true);
-    } else if (newGuesses.length === 6) {
-      setIsGameOver(true);
-    }
-  };
-
-  const checkGuess = (guess) => {
-    return wordleGame.checkWord(guess);
-  };
-
+  // Handle key press from keyboard
   const handleKeyPress = (key) => {
-    if (isGameOver) return;
+    console.log('Key pressed:', key);
 
     if (key === 'ENTER') {
-      handleGuessSubmit();
+      // Logic for submitting the guess
+      if (currentGuess.length === 5) {
+        setGuesses([...guesses, currentGuess]);
+        setCurrentGuess('');
+      }
     } else if (key === 'BACKSPACE') {
+      // Logic for removing a letter
       setCurrentGuess(currentGuess.slice(0, -1));
-    } else if (currentGuess.length < 5 && key.length === 1 && key.match(/[A-Z]/i)) {
-      setCurrentGuess(currentGuess + key.toUpperCase());
+    } else if (currentGuess.length < 5) {
+      // Add the letter to the current guess if it's not full
+      setCurrentGuess(currentGuess + key);
     }
+  };
+
+
+  const handleGuessSubmit = (guess) => {
+    if (guess.length !== 5) {
+      alert('Your guess must be 5 letters long!');
+      return;
+    }
+    const checkResult = wordle.checkWord(guess);
+
+    // Transform checkResult into an array of objects
+    const formattedGuess = guess.split('').map((letter, index) => ({
+      letter: letter,
+      color: checkResult[index], // 'g', 'y', or 'b'
+    }));
+
+    setGuesses([...guesses, formattedGuess]);
+
+    if (checkResult.every((res) => res === GREEN)) {
+      setIsGameOver(true);
+      setResult('You Win!');
+    } else if (guesses.length >= 5) {
+      setIsGameOver(true);
+      setResult(`Game Over! The word was ${targetWord}`);
+    }
+    setCurrentGuess('');
   };
 
   return (
     <div className="app">
-      <h1>Wordle</h1>
-      <WordleGrid guesses={guesses} currentGuess={currentGuess} />
-      <Keyboard handleKeyPress={handleKeyPress} />
-      {isGameOver && <Modal isWon={isGameWon} targetWord={targetWord} />}
+      <h1>WORDLE</h1>
+      <WordGrid guesses={guesses} currentGuess={currentGuess} />
+      {isGameOver ? (
+        <Result result={result} />
+      ) : (
+        <Keyboard 
+          currentGuess={currentGuess} 
+          setCurrentGuess={setCurrentGuess} 
+          handleGuessSubmit={handleGuessSubmit} 
+          handleKeyPress={handleKeyPress}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default App;
