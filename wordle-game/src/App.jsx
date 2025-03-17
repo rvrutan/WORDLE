@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import WordGrid from './components/WordGrid';
 import Keyboard from './components/Keyboard';
-// import Result from './components/Result';
+import Result from './components/Result';
 import fiveLetterWords from './tools/fiveLetterWords.js';
 import { Wordle, GREEN, YELLOW, BLACK } from './tools/index';
 
@@ -20,10 +20,7 @@ const App = () => {
 
     if (key === 'ENTER') {
       // Logic for submitting the guess
-      if (currentGuess.length === 5) {
-        setGuesses([...guesses, currentGuess]);
-        setCurrentGuess('');
-      }
+        handleGuessSubmit(currentGuess)
     } else if (key === 'BACKSPACE') {
       // Logic for removing a letter
       setCurrentGuess(currentGuess.slice(0, -1));
@@ -38,7 +35,8 @@ const App = () => {
     if (guess.length !== 5) {
       alert('Your guess must be 5 letters long!');
       return;
-    }
+    } 
+
     const checkResult = wordle.checkWord(guess);
 
     // Transform checkResult into an array of objects
@@ -48,6 +46,7 @@ const App = () => {
     }));
 
     setGuesses([...guesses, formattedGuess]);
+    setCurrentGuess('');
 
     if (checkResult.every((res) => res === GREEN)) {
       setIsGameOver(true);
@@ -56,20 +55,20 @@ const App = () => {
       setIsGameOver(true);
       setResult(`Game Over! The word was ${targetWord}`);
     }
-    setCurrentGuess('');
   };
 
   return (
     <div className="app">
       <h1>WORDLE</h1>
+      <p>{targetWord}</p>
       <WordGrid guesses={guesses} currentGuess={currentGuess} />
       {isGameOver ? (
         <Result result={result} />
       ) : (
         <Keyboard 
+          guesses={guesses}
           currentGuess={currentGuess} 
           setCurrentGuess={setCurrentGuess} 
-          handleGuessSubmit={handleGuessSubmit} 
           handleKeyPress={handleKeyPress}
         />
       )}
