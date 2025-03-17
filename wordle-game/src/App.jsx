@@ -16,18 +16,14 @@ const App = () => {
 
   const wordle = new Wordle(targetWord);
 
-  // Handle key press from keyboard
   const handleKeyPress = (key) => {
     console.log("Key pressed:", key);
 
     if (key === "ENTER") {
-      // Logic for submitting the guess
       handleGuessSubmit(currentGuess);
     } else if (key === "BACKSPACE") {
-      // Logic for removing a letter
       setCurrentGuess(currentGuess.slice(0, -1));
     } else if (currentGuess.length < 5) {
-      // Add the letter to the current guess if it's not full
       setCurrentGuess(currentGuess + key);
     }
   };
@@ -74,7 +70,6 @@ const App = () => {
   return (
     <div className="app min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <h1 className="text-3xl font-bold text-green-600 mb-6">WORDLE</h1>
-      <p className="text-lg font-mono text-blue-600 mb-4">{targetWord}</p>
       <div className="mb-8">
         <WordGrid guesses={guesses} currentGuess={currentGuess} />
       </div>
