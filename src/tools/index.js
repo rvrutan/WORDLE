@@ -2,7 +2,7 @@ export const GREEN = "g";
 export const YELLOW = "y";
 export const BLACK = "b";
 
-export class Wordle {
+export default class Wordle {
   word;
   constructor(word) {
     this.word = word;

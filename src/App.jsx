@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import WordGrid from "./components/WordGrid";
-import Keyboard from "./components/Keyboard";
-import Result from "./components/Result";
+import WordGrid from "./components/WordGrid.jsx";
+import Keyboard from "./components/Keyboard.jsx";
+import Result from "./components/Result.jsx";
 import fiveLetterWords from "./tools/fiveLetterWords.js";
-import { Wordle, GREEN, YELLOW, BLACK } from "./tools/index";
+import  Wordle, { GREEN, YELLOW, BLACK } from "./tools/index.js";
 
 const App = () => {
   const [targetWord, setTargetWord] = useState(
