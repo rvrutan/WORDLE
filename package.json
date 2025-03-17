@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watch",
-    "test-ci": "jest"
+    "test-ci": "jest",
+    "start": "cd wordle-game && npm run dev"
   },
   "author": "",
   "license": "ISC",
