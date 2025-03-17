@@ -7,8 +7,7 @@ import { Wordle, GREEN, YELLOW, BLACK } from "./tools/index";
 
 const App = () => {
   const [targetWord, setTargetWord] = useState(
-    fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]
-  );
+fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]);
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
   const [isGameOver, setIsGameOver] = useState(false);
