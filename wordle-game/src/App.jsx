@@ -7,7 +7,8 @@ import { Wordle, GREEN, YELLOW, BLACK } from "./tools/index";
 
 const App = () => {
   const [targetWord, setTargetWord] = useState(
-fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]);
+    fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]
+  );
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
   const [isGameOver, setIsGameOver] = useState(false);
@@ -38,10 +39,18 @@ fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]);
     }
 
     if (!fiveLetterWords.includes(guess.toLowerCase())) {
-      alert('The guessed word is not a valid word!');
+      alert("The guessed word is not a valid word!");
       return;
     }
 
+    if (
+      guesses.some(
+        (g) => g.map((letterObj) => letterObj.letter).join("") === guess
+      )
+    ) {
+      alert("You've already guessed that word!");
+      return;
+    }
     const checkResult = wordle.checkWord(guess);
 
     // Transform checkResult into an array of objects
@@ -64,8 +73,8 @@ fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]);
 
   return (
     <div className="app min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">WORDLE</h1>
-      <p className="text-lg font-mono text-gray-600 mb-4">{targetWord}</p>
+      <h1 className="text-3xl font-bold text-green-600 mb-6">WORDLE</h1>
+      <p className="text-lg font-mono text-blue-600 mb-4">{targetWord}</p>
       <div className="mb-8">
         <WordGrid guesses={guesses} currentGuess={currentGuess} />
       </div>
