@@ -68,9 +68,9 @@ const App = () => {
   };
 
   return (
-    <div className="app min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold text-green-500 mb-6">WORDLE</h1>
-      <div className="mb-10">
+    <div className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8">
+      <h1 className="text-3xl font-bold text-green-500 mb-4">WORDLE</h1>
+      <div className="mb-12">
         <WordGrid guesses={guesses} currentGuess={currentGuess} />
       </div>
       {isGameOver ? (
