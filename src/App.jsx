@@ -68,7 +68,7 @@ const App = () => {
   };
 
   return (
-    <div className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8 ">
+    <div className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8 " style={{ fontFamily: "'Geologica', sans-serif" }}>
       <h1 className="text-3xl font-bold">
         <span className="text-green-500">W</span>
         <span className="text-green-500">O</span>
