@@ -3,7 +3,7 @@ import WordGrid from "./components/WordGrid.jsx";
 import Keyboard from "./components/Keyboard.jsx";
 import Result from "./components/Result.jsx";
 import fiveLetterWords from "./tools/fiveLetterWords.js";
-import  Wordle, { GREEN, YELLOW, BLACK } from "./tools/index.js";
+import Wordle, { GREEN, YELLOW, BLACK } from "./tools/index.js";
 
 const App = () => {
   const [targetWord, setTargetWord] = useState(
@@ -68,8 +68,18 @@ const App = () => {
   };
 
   return (
-    <div className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8">
-      <h1 className="text-3xl font-bold text-green-500 mb-4">WORDLE</h1>
+    <div className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8 ">
+      <h1 className="text-3xl font-bold">
+        <span className="text-green-500">W</span>
+        <span className="text-green-500">O</span>
+        <span className="text-green-500">R</span>
+        <span className="text-yellow-500">D</span>
+        <span className="text-yellow-500">L</span>
+        <span className="text-gray-500">E</span>
+      </h1>{" "}
+      <a href="https://github.com/rvrutan" className="hover:text-blue-500 mb-4">
+        by Roni
+      </a>
       <div className="mb-12">
         <WordGrid guesses={guesses} currentGuess={currentGuess} />
       </div>
