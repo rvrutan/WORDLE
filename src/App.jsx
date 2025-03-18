@@ -63,7 +63,7 @@ const App = () => {
       setResult("You Win!");
     } else if (guesses.length >= 5) {
       setIsGameOver(true);
-      setResult(`Game Over! The word was ${targetWord}`);
+      setResult(`Game Over! The word was:\n${targetWord.toUpperCase()}`);
     }
   };
 
