@@ -21,7 +21,7 @@ const App = () => {
 
     if (key === "ENTER") {
       handleGuessSubmit(currentGuess);
-    } else if (key === "BACKSPACE") {
+    } else if (key === "⌫") {
       setCurrentGuess(currentGuess.slice(0, -1));
     } else if (currentGuess.length < 5) {
       setCurrentGuess(currentGuess + key);
@@ -70,7 +70,7 @@ const App = () => {
   return (
     <div className="app min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <h1 className="text-3xl font-bold text-green-600 mb-6">WORDLE</h1>
-      <div className="mb-8">
+      <div className="mb-52">
         <WordGrid guesses={guesses} currentGuess={currentGuess} />
       </div>
       {isGameOver ? (
