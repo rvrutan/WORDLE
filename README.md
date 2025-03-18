@@ -6,7 +6,7 @@ This is a simple Wordle game implemented in React and deployed using AWS Amplify
 
 ## Deployed Link
 
-[WORDLE by Roni](https://main.d2lpzq5mno6xa4.amplifyapp.com/)
+[WORDLE by Roni](https://main.d31onown0apcrr.amplifyapp.com)
 
 ## Table of Contents
 
