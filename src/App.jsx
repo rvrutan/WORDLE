@@ -70,7 +70,7 @@ const App = () => {
   return (
     <div className="app min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <h1 className="text-3xl font-bold text-green-600 mb-6">WORDLE</h1>
-      <div className="mb-24">
+      <div className="mb-16">
         <WordGrid guesses={guesses} currentGuess={currentGuess} />
       </div>
       {isGameOver ? (
