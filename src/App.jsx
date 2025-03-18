@@ -80,7 +80,7 @@ const App = () => {
       <a href="https://github.com/rvrutan" className="hover:text-blue-500 mb-4">
         by Roni
       </a>
-      <div className="mb-10">
+      <div className="mb-12">
         <WordGrid guesses={guesses} currentGuess={currentGuess} />
       </div>
       {isGameOver ? (
