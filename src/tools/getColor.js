@@ -1,7 +1,8 @@
 export function getColorClass(color) {
     if (color === "g") return "bg-green-500";
     if (color === "y") return "bg-yellow-500";
-    return "bg-gray-400"; // For 'b' or default
+    if (color === "b") return "bg-gray-400";
+    return; // For 'b' or default
   };
 
   export function createGrid(guesses, currentGuess) {
@@ -18,7 +19,7 @@ export function getColorClass(color) {
         .fill(null)
         .map((_, colIndex) => ({
           letter: guess?.[colIndex]?.letter || guess?.[colIndex] || "", // Handle letters for current guess
-          color: guess?.[colIndex]?.color || "b", // Default to black ('b')
+          color: guess?.[colIndex]?.color || "", // Default to black ('b')
         }));
     });
   }
