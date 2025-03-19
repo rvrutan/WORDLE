@@ -1,1 +1,19 @@
 @import "tailwindcss";
+/* Flip animation keyframes */
+@keyframes flip {
+    0% {
+      transform: rotateX(0);
+    }
+    50% {
+      transform: rotateX(90deg);
+      background-color: gray; /* Neutral color mid-flip */
+    }
+    100% {
+      transform: rotateX(0);
+    }
+  }
+  
+  .cell.flip {
+    animation: flip 0.6s ease-in-out;
+    transform-style: preserve-3d;
+  }
