@@ -13,12 +13,11 @@ const App = () => {
   const [currentGuess, setCurrentGuess] = useState("");
   const [isGameOver, setIsGameOver] = useState(false);
   const [result, setResult] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [shakeRowIndex, setShakeRowIndex] = useState(null);
   const wordle = new Wordle(targetWord);
 
   const handleKeyPress = (key) => {
-    console.log("Key pressed:", key);
-
     if (key === "ENTER") {
       handleGuessSubmit(currentGuess);
     } else if (key === "⌫") {
@@ -29,13 +28,15 @@ const App = () => {
   };
 
   const handleGuessSubmit = (guess) => {
+    const currentRow = guesses.length;
+
     if (guess.length !== 5) {
-      alert("Your guess must be 5 letters long!");
+      triggerError("Not enough letters", currentRow);
       return;
     }
 
     if (!fiveLetterWords.includes(guess.toLowerCase())) {
-      alert("The guessed word is not a valid word!");
+      triggerError("Not in word list", currentRow);
       return;
     }
 
@@ -44,9 +45,10 @@ const App = () => {
         (g) => g.map((letterObj) => letterObj.letter).join("") === guess
       )
     ) {
-      alert("You've already guessed that word!");
+      triggerError("Already guessed", currentRow);
       return;
     }
+
     const checkResult = wordle.checkWord(guess);
 
     // Transform checkResult into an array of objects
@@ -67,8 +69,21 @@ const App = () => {
     }
   };
 
+  // Function to handle error and trigger shake effect
+  const triggerError = (message, rowIndex) => {
+    setErrorMessage(message);
+    setShakeRowIndex(rowIndex);
+    setTimeout(() => {
+      setErrorMessage("");
+      setShakeRowIndex(null);
+    }, 2000);
+  };
+
   return (
-    <div className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8 " style={{ fontFamily: "'Geologica', sans-serif" }}>
+    <div
+      className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8 relative"
+      style={{ fontFamily: "'Geologica', sans-serif" }}
+    >
       <h1 className="text-3xl font-bold">
         <span className="text-green-500">W</span>
         <span className="text-green-500">O</span>
@@ -76,13 +91,25 @@ const App = () => {
         <span className="text-yellow-500">D</span>
         <span className="text-yellow-500">L</span>
         <span className="text-gray-500">E</span>
-      </h1>{" "}
+      </h1>
       <a href="https://github.com/rvrutan" className="hover:text-blue-500 mb-4">
         by Roni
       </a>
-      <div className="mb-12">
-        <WordGrid guesses={guesses} currentGuess={currentGuess} />
+      <p>{targetWord}</p>
+      {errorMessage && (
+        <div className="absolute top-1/10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-yellow-500 text-black px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-100 z-50">
+          {errorMessage}
+        </div>
+      )}
+
+      <div className="mb-12 relative z-10">
+        <WordGrid
+          guesses={guesses}
+          currentGuess={currentGuess}
+          shakeRowIndex={shakeRowIndex}
+        />
       </div>
+
       {isGameOver ? (
         <Result result={result} />
       ) : (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createGrid, getColorClass } from "../tools/getColor";
 
-function WordleGrid({ guesses, currentGuess }) {
+function WordleGrid({ guesses, currentGuess, shakeRowIndex }) {
   const grid = createGrid(guesses, currentGuess);
   const [flippedCells, setFlippedCells] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
@@ -27,7 +27,12 @@ function WordleGrid({ guesses, currentGuess }) {
   return (
     <div className="grid space-y-2">
       {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="row flex justify-center space-x-1">
+        <div
+          key={rowIndex}
+          className={`row flex justify-center space-x-1 ${
+            rowIndex === shakeRowIndex ? "shake" : ""
+          }`}
+        >
           {row.map((cell, colIndex) => {
             const cellKey = `${rowIndex}-${colIndex}`;
             return (
