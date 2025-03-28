@@ -10,14 +10,30 @@ function Keyboard({ handleKeyPress, guesses, currentGuess }) {
   const grid = createGrid(guesses, currentGuess);
 
   function getKeyColor(letter) {
+    let bestColor = "";
+
     for (let guess of guesses) {
       for (let letterObj of guess) {
         if (letterObj.letter === letter) {
-          return getColorClass(letterObj.color);
+          const currentColorClass = getColorClass(letterObj.color);
+          // Prioritize green (g) over yellow (y) and gray (b)
+          if (currentColorClass === "bg-green-500") {
+            bestColor = currentColorClass; // Highest priority
+          } else if (
+            currentColorClass === "bg-yellow-500" &&
+            bestColor !== "bg-green-500"
+          ) {
+            bestColor = currentColorClass; // Second priority
+          } else if (
+            currentColorClass === "bg-gray-400" &&
+            !bestColor // Only set gray if no other color is assigned yet
+          ) {
+            bestColor = currentColorClass;
+          }
         }
       }
     }
-    return "";
+    return bestColor;
   }
 
   return (
