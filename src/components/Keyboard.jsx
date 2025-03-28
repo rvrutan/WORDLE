@@ -21,14 +21,14 @@ function Keyboard({ handleKeyPress, guesses, currentGuess }) {
   }
 
   return (
-    <div className="keyboard flex flex-col items-center space-y-3">
+    <div className="keyboard flex flex-col items-center space-y-2">
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="keyboard-row flex space-x-1">
           {row.map((key) => (
             <button
               key={key}
               onClick={() => handleKeyPress(key)}
-              className={`bg-gray-300 hover:bg-gray-400 text-black font-bold py-4 px-3 sm:py-2 sm:px-4 rounded-md transition-colors duration-200 ease-in-out text-xs sm:text-base uppercase ${getKeyColor(
+              className={`bg-gray-300 hover:bg-gray-400 text-black font-bold py-5 px-3 sm:py-2 sm:px-4 rounded-md transition-colors duration-200 ease-in-out text-xs sm:text-base uppercase ${getKeyColor(
                 key
               )}`}
             >

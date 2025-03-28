@@ -101,7 +101,7 @@ const App = () => {
         </div>
       )}
 
-      <div className="mb-12 relative z-10">
+      <div className="mb-8 relative z-10">
         <WordGrid
           guesses={guesses}
           currentGuess={currentGuess}
