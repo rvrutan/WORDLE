@@ -81,7 +81,7 @@ const App = () => {
 
   return (
     <div
-      className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-8 relative"
+      className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-6 relative"
       style={{ fontFamily: "'Geologica', sans-serif" }}
     >
       <h1 className="text-3xl font-bold">
@@ -92,7 +92,7 @@ const App = () => {
         <span className="text-yellow-500">L</span>
         <span className="text-gray-500">E</span>
       </h1>
-      <a href="https://github.com/rvrutan" className="hover:text-blue-500 mb-4">
+      <a href="https://github.com/rvrutan" className="hover:text-blue-500 mb-3">
         by Roni
       </a>
       {errorMessage && (
@@ -101,7 +101,7 @@ const App = () => {
         </div>
       )}
 
-      <div className="mb-8 relative z-10">
+      <div className="mb-6 relative z-10">
         <WordGrid
           guesses={guesses}
           currentGuess={currentGuess}
