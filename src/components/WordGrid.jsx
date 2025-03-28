@@ -13,13 +13,16 @@ function WordleGrid({ guesses, currentGuess, shakeRowIndex }) {
       grid[currentRow].forEach((_, colIndex) => {
         const cellKey = `${currentRow}-${colIndex}`;
 
+        const flipDelay = colIndex === 0 ? 0 : colIndex * 100;
+        const colorDelay = colIndex === 0 ? 200 : 500 + colIndex * 150;
+
         setTimeout(() => {
           setFlippedCells((prev) => [...prev, cellKey]);
-        }, colIndex * 100);
+        }, flipDelay);
 
         setTimeout(() => {
           setColoredCells((prev) => [...prev, cellKey]);
-        }, 500 + colIndex * 150);
+        }, colorDelay);
       });
     }
   }, [guesses]);
