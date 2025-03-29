@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { createGrid, getColorClass } from "../tools/getColor";
 
-function WordleGrid({ guesses, currentGuess, shakeRowIndex }) {
+function WordleGrid({ guesses, currentGuess, shakeRowIndex, onJumpComplete }) {
   const grid = createGrid(guesses, currentGuess);
   const [flippedCells, setFlippedCells] = useState([]);
   const [coloredCells, setColoredCells] = useState([]);
+  const [jumpingRow, setJumpingRow] = useState(null);
 
   useEffect(() => {
     if (guesses.length > 0) {
       const currentRow = guesses.length - 1;
+      const lastCellIndex = grid[currentRow].length - 1;
+      const finalColorDelay = 500 + lastCellIndex * 150;
 
       grid[currentRow].forEach((_, colIndex) => {
         const cellKey = `${currentRow}-${colIndex}`;
@@ -24,8 +27,23 @@ function WordleGrid({ guesses, currentGuess, shakeRowIndex }) {
           setColoredCells((prev) => [...prev, cellKey]);
         }, colorDelay);
       });
+
+      // Check if the current row is all green
+      const isAllGreen = grid[currentRow].every(cell => cell.color === 'g');
+      if (isAllGreen) {
+        // Wait for all cells to be colored before starting the jump animation
+        setTimeout(() => {
+          setJumpingRow(currentRow);
+          // Calculate when the last cell's jump animation will complete
+          // finalColorDelay + (lastCellIndex * 100ms for jump delays) + 300ms (jump animation duration)
+          const jumpCompletionDelay = finalColorDelay + (lastCellIndex * 100) + 300;
+          setTimeout(() => {
+            onJumpComplete?.();
+          }, jumpCompletionDelay);
+        }, finalColorDelay + 500);
+      }
     }
-  }, [guesses]);
+  }, [guesses, onJumpComplete]);
 
   return (
     <div className="grid space-y-2">
@@ -38,17 +56,30 @@ function WordleGrid({ guesses, currentGuess, shakeRowIndex }) {
         >
           {row.map((cell, colIndex) => {
             const cellKey = `${rowIndex}-${colIndex}`;
+            const isJumping = rowIndex === jumpingRow;
             return (
               <div
                 key={colIndex}
                 className={`cell w-12 h-12 sm:w-14 sm:h-14 border-2 border-gray-300 mx-1 flex justify-center items-center uppercase font-bold text-xl ${
-                  flippedCells.includes(cellKey) ? "flip" : ""
+                  flippedCells.includes(cellKey) && !isJumping ? "flip" : ""
+                } ${
+                  isJumping ? "jump" : ""
                 }`}
-                style={{
-                  animationDelay: `${colIndex * 0.15}s`,
-                  animationDuration: "0.5s",
-                  animationFillMode: "forwards",
-                }}
+                style={
+                  isJumping
+                    ? {
+                        animationDelay: `${colIndex * 0.1}s`,
+                        animationDuration: "0.5s",
+                        animationFillMode: "forwards",
+                      }
+                    : flippedCells.includes(cellKey)
+                    ? {
+                        animationDelay: `${colIndex * 0.15}s`,
+                        animationDuration: "0.5s",
+                        animationFillMode: "forwards",
+                      }
+                    : undefined
+                }
               >
                 <div
                   className={`w-full h-full flex justify-center items-center ${

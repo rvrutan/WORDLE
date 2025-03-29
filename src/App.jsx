@@ -15,6 +15,7 @@ const App = () => {
   const [result, setResult] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [shakeRowIndex, setShakeRowIndex] = useState(null);
+  const [showResult, setShowResult] = useState(false);
   const wordle = new Wordle(targetWord);
 
   const handleKeyPress = (key) => {
@@ -66,6 +67,8 @@ const App = () => {
     } else if (guesses.length >= 5) {
       setIsGameOver(true);
       setResult(`Game Over! The word was:\n${targetWord.toUpperCase()}`);
+      // For game over, show result immediately
+      setShowResult(true);
     }
   };
 
@@ -77,6 +80,10 @@ const App = () => {
       setErrorMessage("");
       setShakeRowIndex(null);
     }, 2000);
+  };
+
+  const handleJumpComplete = () => {
+    setShowResult(true);
   };
 
   return (
@@ -95,6 +102,7 @@ const App = () => {
       <a href="https://github.com/rvrutan" className="hover:text-blue-500 mb-3">
         by Roni
       </a>
+      <p>{targetWord}</p>
       {errorMessage && (
         <div className="absolute top-1/10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-yellow-500 text-black px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-100 z-50">
           {errorMessage}
@@ -106,19 +114,33 @@ const App = () => {
           guesses={guesses}
           currentGuess={currentGuess}
           shakeRowIndex={shakeRowIndex}
+          onJumpComplete={handleJumpComplete}
         />
       </div>
 
-      {isGameOver ? (
-        <Result result={result} />
-      ) : (
-        <Keyboard
-          guesses={guesses}
-          currentGuess={currentGuess}
-          setCurrentGuess={setCurrentGuess}
-          handleKeyPress={handleKeyPress}
-        />
-      )}
+      <div className="relative w-full max-w-2xl">
+        <div
+          className={`transition-opacity duration-500 ease-in-out ${
+            showResult ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <Keyboard
+            guesses={guesses}
+            currentGuess={currentGuess}
+            setCurrentGuess={setCurrentGuess}
+            handleKeyPress={handleKeyPress}
+          />
+        </div>
+        {isGameOver && (
+          <div
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ease-in-out ${
+              showResult ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Result result={result} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
