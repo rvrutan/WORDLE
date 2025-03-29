@@ -102,7 +102,6 @@ const App = () => {
       <a href="https://github.com/rvrutan" className="hover:text-blue-500 mb-3">
         by Roni
       </a>
-      <p>{targetWord}</p>
       {errorMessage && (
         <div className="absolute top-1/10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-yellow-500 text-black px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-100 z-50">
           {errorMessage}
