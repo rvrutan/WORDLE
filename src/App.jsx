@@ -143,6 +143,23 @@ const App = () => {
     setHasShownStats(false);
   };
 
+  const generateShareString = () => {
+    const emojiMap = {
+      [GREEN]: '🟩',
+      [YELLOW]: '🟨',
+      [BLACK]: '⬛'
+    };
+    
+    const shareLines = guesses.map(guess => 
+      guess.map(({ color }) => emojiMap[color]).join('')
+    );
+    
+    const won = result === "You Win!";
+    const attempts = guesses.length;
+    
+    return `Wordle ${won ? attempts : 'X'}/6\n\n${shareLines.join('\n')}\n\nPlay at: ${window.location.origin}`;
+  };
+
   return (
     <div
       className="app min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4 pt-6 relative"
@@ -201,7 +218,11 @@ const App = () => {
               showResult ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Result result={result} onNewGame={handleNewGame} />
+            <Result 
+              result={result} 
+              onNewGame={handleNewGame} 
+              shareString={generateShareString()}
+            />
           </div>
         )}
       </div>
