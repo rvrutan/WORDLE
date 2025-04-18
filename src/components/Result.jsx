@@ -1,6 +1,4 @@
-function Result(props) {
-  const { result } = props;
-
+function Result({ result, onNewGame }) {
   return (
     <div className="text-center p-4">
       {result.split("\n").map((line, index) => (
@@ -8,7 +6,7 @@ function Result(props) {
           {line}
           {index < result.split("\n").length - 1 && <br />}
         </p>
-      ))}{" "}
+      ))}
       <button
         className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
         onClick={() => window.location.reload()}
