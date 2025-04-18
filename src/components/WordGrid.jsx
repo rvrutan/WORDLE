@@ -10,38 +10,34 @@ function WordleGrid({ guesses, currentGuess, shakeRowIndex, onJumpComplete }) {
   useEffect(() => {
     if (guesses.length > 0) {
       const currentRow = guesses.length - 1;
-      const lastCellIndex = grid[currentRow].length - 1;
-      const finalColorDelay = 500 + lastCellIndex * 150;
 
-      grid[currentRow].forEach((_, colIndex) => {
-        const cellKey = `${currentRow}-${colIndex}`;
+      const animateRow = async () => {
+        for (let colIndex = 0; colIndex < grid[currentRow].length; colIndex++) {
+          const cellKey = `${currentRow}-${colIndex}`;
 
-        const flipDelay = colIndex === 0 ? 0 : colIndex * 100;
-        const colorDelay = colIndex === 0 ? 200 : 500 + colIndex * 150;
-
-        setTimeout(() => {
           setFlippedCells((prev) => [...prev, cellKey]);
-        }, flipDelay);
 
-        setTimeout(() => {
-          setColoredCells((prev) => [...prev, cellKey]);
-        }, colorDelay);
-      });
-
-      // Check if the current row is all green
-      const isAllGreen = grid[currentRow].every(cell => cell.color === 'g');
-      if (isAllGreen) {
-        // Wait for all cells to be colored before starting the jump animation
-        setTimeout(() => {
-          setJumpingRow(currentRow);
-          // Calculate when the last cell's jump animation will complete
-          // finalColorDelay + (lastCellIndex * 100ms for jump delays) + 300ms (jump animation duration)
-          const jumpCompletionDelay = finalColorDelay + (lastCellIndex * 100) + 300;
+          // Wait half of the flip duration before coloring (assuming 500ms total flip duration)
           setTimeout(() => {
-            onJumpComplete?.();
-          }, jumpCompletionDelay);
-        }, finalColorDelay + 500);
-      }
+            setColoredCells((prev) => [...prev, cellKey]);
+          }, 250 + colIndex * 150); // staggered with colIndex
+
+          await new Promise((resolve) => setTimeout(resolve, 150)); // stagger each flip
+        }
+
+        // After all cells colored
+        const isAllGreen = grid[currentRow].every(cell => cell.color === 'g');
+        if (isAllGreen) {
+          setTimeout(() => {
+            setJumpingRow(currentRow);
+            setTimeout(() => {
+              onJumpComplete?.();
+            }, grid[currentRow].length * 100 + 300);
+          }, 1000);
+        }
+      };
+
+      animateRow();
     }
   }, [guesses, onJumpComplete]);
 

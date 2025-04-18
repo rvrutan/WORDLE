@@ -103,7 +103,7 @@ const App = () => {
         by Roni
       </a>
       {errorMessage && (
-        <div className="absolute top-1/10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-yellow-500 text-black px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-100 z-50">
+        <div className="absolute top-1/10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-300 text-black px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-100 z-50">
           {errorMessage}
         </div>
       )}
