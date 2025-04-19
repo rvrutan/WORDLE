@@ -31,7 +31,6 @@ const App = () => {
   });
   const wordle = new Wordle(targetWord);
 
-  // Save stats to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('wordleStats', JSON.stringify(stats));
   }, [stats]);
@@ -87,7 +86,6 @@ const App = () => {
       setIsGameOver(true);
       setResult(`Game Over! The word was:\n${targetWord.toUpperCase()}`);
       updateStats(false, 6);
-      // For game over, show result immediately
       setShowResult(true);
     }
   };
@@ -185,7 +183,7 @@ const App = () => {
         </div>
       </div>
       {errorMessage && (
-        <div className="absolute top-1/10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-yellow-500 text-black px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-100 z-50">
+        <div className="absolute top-1/10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-300 text-black px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 ease-in-out opacity-100 z-50">
           {errorMessage}
         </div>
       )}

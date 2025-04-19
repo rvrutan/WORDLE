@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useRef } from "react";
 
 function Statistics({ isOpen, onClose, stats }) {
+  const modalRef = useRef(null);
+
   if (!isOpen) return null;
+
+  const handleOutsideClick = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      onClose();
+    }
+  };
 
   const {
     gamesPlayed = 0,
@@ -11,14 +19,21 @@ function Statistics({ isOpen, onClose, stats }) {
     guessDistribution = [0, 0, 0, 0, 0, 0],
   } = stats;
 
-  const winRate = gamesPlayed > 0 ? Math.round((gamesWon / gamesPlayed) * 100) : 0;
+  const winRate =
+    gamesPlayed > 0 ? Math.round((gamesWon / gamesPlayed) * 100) : 0;
   const maxGuesses = Math.max(...guessDistribution);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+    <div
+      className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm"
+      onClick={handleOutsideClick}
+    >
+      <div
+        className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
+        ref={modalRef}
+      >
         <h2 className="text-2xl font-bold mb-4 text-center">Statistics</h2>
-        
+
         <div className="grid grid-cols-4 gap-4 mb-6">
           <div className="text-center">
             <div className="text-2xl font-bold">{gamesPlayed}</div>
