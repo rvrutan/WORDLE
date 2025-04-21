@@ -20,19 +20,21 @@ const App = () => {
   const [showStats, setShowStats] = useState(false);
   const [hasShownStats, setHasShownStats] = useState(false);
   const [stats, setStats] = useState(() => {
-    const savedStats = localStorage.getItem('wordleStats');
-    return savedStats ? JSON.parse(savedStats) : {
-      gamesPlayed: 0,
-      gamesWon: 0,
-      currentStreak: 0,
-      maxStreak: 0,
-      guessDistribution: [0, 0, 0, 0, 0, 0],
-    };
+    const savedStats = localStorage.getItem("wordleStats");
+    return savedStats
+      ? JSON.parse(savedStats)
+      : {
+          gamesPlayed: 0,
+          gamesWon: 0,
+          currentStreak: 0,
+          maxStreak: 0,
+          guessDistribution: [0, 0, 0, 0, 0, 0],
+        };
   });
   const wordle = new Wordle(targetWord);
 
   useEffect(() => {
-    localStorage.setItem('wordleStats', JSON.stringify(stats));
+    localStorage.setItem("wordleStats", JSON.stringify(stats));
   }, [stats]);
 
   const handleKeyPress = (key) => {
@@ -91,16 +93,17 @@ const App = () => {
   };
 
   const updateStats = (won, numGuesses) => {
-    setStats(prevStats => {
+    setStats((prevStats) => {
       const newStats = {
         ...prevStats,
         gamesPlayed: prevStats.gamesPlayed + 1,
         gamesWon: won ? prevStats.gamesWon + 1 : prevStats.gamesWon,
         currentStreak: won ? prevStats.currentStreak + 1 : 0,
-        maxStreak: won && prevStats.currentStreak + 1 > prevStats.maxStreak 
-          ? prevStats.currentStreak + 1 
-          : prevStats.maxStreak,
-        guessDistribution: prevStats.guessDistribution.map((count, index) => 
+        maxStreak:
+          won && prevStats.currentStreak + 1 > prevStats.maxStreak
+            ? prevStats.currentStreak + 1
+            : prevStats.maxStreak,
+        guessDistribution: prevStats.guessDistribution.map((count, index) =>
           index === numGuesses - 1 ? count + 1 : count
         ),
       };
@@ -119,7 +122,7 @@ const App = () => {
   };
 
   const handleJumpComplete = () => {
-    console.log('handleJumpComplete called');
+    console.log("handleJumpComplete called");
     setShowResult(true);
     // Show stats after a short delay only if it hasn't been shown yet
     if (!hasShownStats) {
@@ -131,7 +134,9 @@ const App = () => {
   };
 
   const handleNewGame = () => {
-    setTargetWord(fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]);
+    setTargetWord(
+      fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)]
+    );
     setGuesses([]);
     setCurrentGuess("");
     setIsGameOver(false);
@@ -143,19 +148,21 @@ const App = () => {
 
   const generateShareString = () => {
     const emojiMap = {
-      [GREEN]: '🟩',
-      [YELLOW]: '🟨',
-      [BLACK]: '⬛'
+      [GREEN]: "🟩",
+      [YELLOW]: "🟨",
+      [BLACK]: "⬛",
     };
-    
-    const shareLines = guesses.map(guess => 
-      guess.map(({ color }) => emojiMap[color]).join('')
+
+    const shareLines = guesses.map((guess) =>
+      guess.map(({ color }) => emojiMap[color]).join("")
     );
-    
+
     const won = result === "You Win!";
     const attempts = guesses.length;
-    
-    return `Wordle ${won ? attempts : 'X'}/6\n\n${shareLines.join('\n')}\n\nPlay at: ${window.location.origin}`;
+
+    return `Wordle ${won ? attempts : "X"}/6\n\n${shareLines.join(
+      "\n"
+    )}\n\nPlay at: ${window.location.origin}`;
   };
 
   return (
@@ -173,13 +180,47 @@ const App = () => {
             <span className="text-yellow-500">L</span>
             <span className="text-gray-500">E</span>
           </h1>
-          <a href="https://github.com/rvrutan" className="text-sm hover:text-blue-500 mt-3 sm:mt-3">by Roni</a>
-          <button onClick={() => setShowStats(true)} className="text-gray-600 hover:text-gray-800 mt-2 sm:mt-0">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-28 sm:ml-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-        </button>
-
+          <a
+            href="https://ronirutan.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-blue-600 underline hover:text-blue-800 transition-all duration-200 flex items-center gap-1 mt-3 sm:mt-3"
+          >
+            by Roni
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-3.5 h-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
+            </svg>
+          </a>{" "}
+          <button
+            onClick={() => setShowStats(true)}
+            className="text-gray-600 hover:text-gray-800 mt-2 sm:mt-0"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 ml-28 sm:ml-100"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       {errorMessage && (
@@ -193,7 +234,7 @@ const App = () => {
           guesses={guesses}
           currentGuess={currentGuess}
           shakeRowIndex={shakeRowIndex}
-          onJumpComplete={handleJumpComplete} 
+          onJumpComplete={handleJumpComplete}
         />
       </div>
 
@@ -216,9 +257,9 @@ const App = () => {
               showResult ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Result 
-              result={result} 
-              onNewGame={handleNewGame} 
+            <Result
+              result={result}
+              onNewGame={handleNewGame}
               shareString={generateShareString()}
             />
           </div>
